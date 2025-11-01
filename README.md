@@ -10,16 +10,24 @@ Complete documentation at GoDoc: [https://godoc.org/github.com/chocobits/go-delt
 ## Usage
 
 ```go
-import "github.com/chocobits/go-delta-json-to-html"
+package main
 
-var delta = `[{"insert":"This "},{"attributes":{"italic":true},"insert":"is"},
+import (
+	"fmt"
+
+	dj "github.com/chocobits/go-delta-json-to-html"
+)
+
+func main() {
+	var delta = `[{"insert":"This "},{"attributes":{"italic":true},"insert":"is"},
     {"insert":" "},{"attributes":{"bold":true},"insert":"Awesome!"},{"insert":"\n"}]`
 
-html, err := quill.Render(delta)
-if err != nil {
-	panic(err)
+	html, err := dj.Render([]byte(delta))
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(string(html))
 }
-fmt.Println(string(html))
 // Output: <p>This <em>is</em> <strong>Awesome!</strong></p>
 ```
 
