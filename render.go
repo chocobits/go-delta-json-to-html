@@ -308,7 +308,9 @@ func (o *Op) getFormatter(keyword string, customFormats func(string, *Op) Format
 		}
 	case "image":
 		return &imageFormat{
-			src: o.Data,
+			src:   o.Data,
+			width: o.Attrs["width"],
+			style: o.Attrs["style"],
 		}
 	case "link":
 		return &linkFormat{

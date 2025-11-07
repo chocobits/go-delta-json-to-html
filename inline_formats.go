@@ -88,7 +88,7 @@ func (lf *linkFormat) Close(_ []*Format, o *Op, _ bool) bool {
 
 // image
 type imageFormat struct {
-	src, alt string
+	src, alt, width, style string
 }
 
 func (*imageFormat) Fmt() *Format { return nil } // The body contains the entire element.
@@ -99,7 +99,16 @@ func (imf *imageFormat) HasFormat(o *Op) bool {
 
 // imageFormat implements the FormatWriter interface.
 func (imf *imageFormat) Write(buf io.Writer) {
-	io.WriteString(buf, "<img src=")
+	io.WriteString(buf, "<img")
+	if imf.width != "" {
+		io.WriteString(buf, " width=")
+		io.WriteString(buf, strconv.Quote(imf.width))
+	}
+	if imf.style != "" {
+		io.WriteString(buf, " style=")
+		io.WriteString(buf, strconv.Quote(imf.style))
+	}
+	io.WriteString(buf, " src=")
 	io.WriteString(buf, strconv.Quote(imf.src))
 	if imf.alt != "" {
 		io.WriteString(buf, " alt=")
